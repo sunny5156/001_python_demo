@@ -14,15 +14,12 @@ def index():
 
 
 def get_video():
-    image_paths = []
-    video_reader = cv2.VideoCapture(1)
+    video_reader = cv2.VideoCapture(0)
     video_reader.set(3, 640)
 
 
     while True:
         ret, image = video_reader.read()
-        if ret == True:
-            image_paths += [image]
 
         ret, jpeg = cv2.imencode('.jpg', image)
         yield (b'--frame\r\n'
