@@ -5,10 +5,18 @@
 # @File    : test_gpu.py
 # @description: 
 import tensorflow as tf
+import keras.backend.tensorflow_backend as KTF
+# os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "-1" #设置CPU
 # 加上下面一行就可以使用 个gpu了
-config = tf.ConfigProto(allow_soft_placement=True)
-# 这一行设置 gpu 随使用增长，我一般都会加上
-config.gpu_options.allow_growth = True
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1" #多GPU设置哪些GPU参与运算
+# 设置gpu根据需求调用显存
+config = tf.ConfigProto(allow_soft_placement=True)  
+config.gpu_options.allow_growth=True   
+session = tf.Session(config=config)
+KTF.set_session(session)
+
+
 with tf.Session(config=config) as sess:
     with tf.device("/gpu:10"):
         a = tf.placeholder(tf.int16)
