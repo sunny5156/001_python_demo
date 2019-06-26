@@ -1,0 +1,1 @@
+设置win开机启动并加载openvino,和conda python程序
