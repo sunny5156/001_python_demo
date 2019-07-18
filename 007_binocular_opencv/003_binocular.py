@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 import camera_configs
  
+#深度色块设置
 cv2.namedWindow("left")
 cv2.namedWindow("right")
 cv2.namedWindow("depth")
@@ -12,7 +13,7 @@ cv2.moveWindow("right", 600, 0)
 cv2.createTrackbar("num", "depth", 0, 10, lambda x: None)
 cv2.createTrackbar("blockSize", "depth", 5, 255, lambda x: None)
 camera1 = cv2.VideoCapture(0 + cv2.CAP_DSHOW)
-camera2 = cv2.VideoCapture(0 + cv2.CAP_DSHOW)
+# camera2 = cv2.VideoCapture(0 + cv2.CAP_DSHOW)
  
 # 添加点击事件，打印当前点的距离
 def callbackFunc(e, x, y, f, p):
@@ -22,16 +23,20 @@ def callbackFunc(e, x, y, f, p):
 cv2.setMouseCallback("depth", callbackFunc, None)
  
 while True:
-    ret1, frame1 = camera1.read()
-    ret2, frame2 = camera2.read()
- 
-    if not ret1 or not ret2:
+    ret1_2, img_rectified = camera1.read()
+    # ret2, img2_rectified = camera2.read()
+    if not ret1_2:
         break
  
+    img_h, img_w, img_ch = img_rectified.shape
+    frame1 = img_rectified[:,0:int(img_w/2)]
+    frame2 = img_rectified[:,int(img_w/2)-1:-1]
+
     # 根据更正map对图片进行重构
     img1_rectified = cv2.remap(frame1, camera_configs.left_map1, camera_configs.left_map2, cv2.INTER_LINEAR)
     img2_rectified = cv2.remap(frame2, camera_configs.right_map1, camera_configs.right_map2, cv2.INTER_LINEAR)
  
+
     # 将图片置为灰度图，为StereoBM作准备
     imgL = cv2.cvtColor(img1_rectified, cv2.COLOR_BGR2GRAY)
     imgR = cv2.cvtColor(img2_rectified, cv2.COLOR_BGR2GRAY)
@@ -65,5 +70,5 @@ while True:
         cv2.imwrite("./BM_depth.jpg", disp)
  
 camera1.release()
-camera2.release()
+#camera2.release()
 cv2.destroyAllWindows()
