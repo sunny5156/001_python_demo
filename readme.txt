@@ -1,4 +1,7 @@
-python各种的简单功能性demo
+﻿python各种的简单功能性demo
 
 008_计算一个点到N个点的距离
 009_定义常量
+010_logger 日志记录
+011_json_parse json解析器
+012_Xmanager Xmanager注册机生成程序
