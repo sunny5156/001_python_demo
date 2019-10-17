@@ -1,69 +1,54 @@
-import numpy as np
 import os
-import xml.etree.ElementTree as ET
-import pickle
-'''
-    检测label标注的工具标注的是否准确
-'''
-def parse_voc_annotation(ann_dir, img_dir, cache_name, labels=[]):
-    if os.path.exists(cache_name):
-        with open(cache_name, 'rb') as handle:
-            cache = pickle.load(handle)
-        all_insts, seen_labels = cache['all_insts'], cache['seen_labels']
-    else:
-        all_insts = []
-        seen_labels = {}
-        
-        for ann in sorted(os.listdir(ann_dir)):
-            img = {'object':[]}
-
-            try:
-                tree = ET.parse(ann_dir + ann)
-            except Exception as e:
-                print(e)
-                print('Ignore this bad annotation: ' + ann_dir + ann)
-                continue
-            
-            for elem in tree.iter():
-                if 'filename' in elem.tag:
-                    img['filename'] = img_dir + elem.text
-                if 'width' in elem.tag:
-                    img['width'] = int(elem.text)
-                if 'height' in elem.tag:
-                    img['height'] = int(elem.text)
-                if 'object' in elem.tag or 'part' in elem.tag:
-                    obj = {}
-                    
-                    for attr in list(elem):
-                        if 'name' in attr.tag:
-                            obj['name'] = attr.text
-
-                            if obj['name'] in seen_labels:
-                                seen_labels[obj['name']] += 1
-                            else:
-                                seen_labels[obj['name']] = 1
-                            
-                            if len(labels) > 0 and obj['name'] not in labels:
-                                break
-                            else:
-                                img['object'] += [obj]
-                                
-                        if 'bndbox' in attr.tag:
-                            for dim in list(attr):
-                                if 'xmin' in dim.tag:
-                                    obj['xmin'] = int(round(float(dim.text)))
-                                if 'ymin' in dim.tag:
-                                    obj['ymin'] = int(round(float(dim.text)))
-                                if 'xmax' in dim.tag:
-                                    obj['xmax'] = int(round(float(dim.text)))
-                                if 'ymax' in dim.tag:
-                                    obj['ymax'] = int(round(float(dim.text)))
-
-            if len(img['object']) > 0:
-                all_insts += [img]
-
-        cache = {'all_insts': all_insts, 'seen_labels': seen_labels}
-        with open(cache_name, 'wb') as handle:
-            pickle.dump(cache, handle, protocol=pickle.HIGHEST_PROTOCOL)    
-                        
-    return all_insts, seen_labels
+import xml.dom.minidom
+import cv2 as cv
+ 
+ImgPath = 'human_data/train_imags/'
+AnnoPath = 'human_data/train_annotaitons/'
+ 
+imagelist = os.listdir(ImgPath)
+for image in imagelist:
+ 
+    image_pre, ext = os.path.splitext(image)
+    imgfile = ImgPath + image
+    xmlfile = AnnoPath + image_pre + '.xml'
+    print(image)
+    if not os.path.exists(xmlfile):
+        # os.remove(image)
+        continue
+ 
+    #打开xml文档
+    DOMTree = xml.dom.minidom.parse(xmlfile)
+    #得到文档元素对象
+    collection = DOMTree.documentElement
+    #读取图片
+    img = cv.imread(imgfile)
+ 
+    filenamelist = collection.getElementsByTagName("filename")
+    filename = filenamelist[0].childNodes[0].data
+    print(filename)
+    #得到标签名为object的信息
+    objectlist = collection.getElementsByTagName("object")
+ 
+    for objects in objectlist:
+        #每个object中得到子标签名为name的信息
+        namelist = objects.getElementsByTagName('name')
+        #通过此语句得到具体的某个name的值
+        objectname = namelist[0].childNodes[0].data
+ 
+        bndbox = objects.getElementsByTagName('bndbox')
+        for box in bndbox:
+            x1_list = box.getElementsByTagName('xmin')
+            x1 = int(x1_list[0].childNodes[0].data)
+            y1_list = box.getElementsByTagName('ymin')
+            y1 = int(y1_list[0].childNodes[0].data)
+            x2_list = box.getElementsByTagName('xmax')
+            x2 = int(x2_list[0].childNodes[0].data)
+            y2_list = box.getElementsByTagName('ymax')
+            y2 = int(y2_list[0].childNodes[0].data)
+            if objectname == "person":
+                cv.rectangle(img, (x1, y1), (x2, y2), (255, 255, 255), thickness=1)
+                cv.putText(img, objectname, (x1, y1), cv.FONT_HERSHEY_COMPLEX, 0.7, (0, 255, 0),
+                           thickness=2)
+            cv.imshow('head', img)
+            cv.waitKey(200)
+        # cv.imwrite("/home/newbee/CODEs/CSRNet-pytorch-master/havatry.jpg", img)   #save picture
