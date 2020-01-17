@@ -85,8 +85,7 @@ def download_clip(video_identifier, output_filename,
                '-f', 'mp4',
                '-o', '"%s"' % tmp_filename,
                '"%s"' % (url_base + video_identifier),     
-               '--proxy', '{host}:{port}'.format(host='socks5://19s2.jamjams.net', port=52585)]     
-               # --proxy 'socks5://127.0.0.1:1080'
+               # '--proxy', '{host}:{port}'.format(host='socks5://19s2.jamjams.net', port=52585)]     
     command = ' '.join(command)
     attempts = 0
     while True:
