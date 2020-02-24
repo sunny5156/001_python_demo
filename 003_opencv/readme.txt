@@ -1,7 +1,8 @@
-001_reader_writer_excel 读取excel
+﻿001_reader_writer_excel 读取excel
 002_parsexml_and_draw 校验xml
 003_opencv_scipymisc_imread 使用scipy.misc加载图片和模型并预测
 004_video_model_pre 记载video食品类并预测
 005_image_reize.py 图像上采样和下采样
 006_check_video 调用摄像头并显示
 006_check_video_num 统计摄像头的数量
+007_add_logo 用opencv添加logo
