@@ -3,7 +3,7 @@
 # @Time    : 2020/1/10 14:06
 # @Author  : Scheaven
 # @File    :  001_test.py.py
-# @description: 给视频帧逐帧添加文字信息，pyav和img的转换
+# @description: 给视频帧逐帧添加文字信息，pyav和img的转换，读取和存储
 import av
 import cv2 as cv
 
@@ -19,13 +19,13 @@ stream.pix_fmt = "yuv420p"
 print("====-----====")
 for frame in video.decode(**{'video': 0}):
     print("frame ok", type(frame))
-    img = frame.to_nd_array(format='rgb24')
+    img = frame.to_nd_array(format='rgb24') # ffmpeg的数据流转化为视频帧处理
     font = cv.FONT_HERSHEY_SIMPLEX
     imgzi = cv.putText(img, str(11), (50, 300), font, 1.2, (255, 255, 255), 2)
     frame = av.VideoFrame.from_ndarray(img, format='rgb24')
     for packet in stream.encode(frame):
         print("packet ok")
-        out_container.mux(packet)
+        out_container.mux(packet) #视频帧的处理
 
 print("frame close")
 video.close()
