@@ -7,3 +7,4 @@
 006_check_video_num 统计摄像头的数量
 007_add_logo 用opencv添加logo
 009_cammer_gen_video 使用opencv存储摄像头视频
+010_merge_img 图像合并与坐标转换
