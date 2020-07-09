@@ -3,7 +3,7 @@
 # @Time    : 2020/5/18 17:05
 # @Author  : Scheaven
 # @File    :  006_merge_img.py
-# @description:
+# @description: 两幅图像有公共部分，将图像的公共部分重叠在一起，形成一个全景图
 # import the necessary packages
 import numpy as np
 import imutils
@@ -170,7 +170,7 @@ imageA = imutils.resize(imageA, width=400)
 imageB = imutils.resize(imageB, width=400)
 
 # stitch the images together to create a panorama
-stitcher = Stitcher(pointA)
+stitcher = Stitcher(pointA) # pointA / pointB 是手动转换的两个坐标点，和图像融合无关，是测试坐标转换自己添加的
 (result, vis, pointB) = stitcher.stitch([imageA, imageB], showMatches=True)
 
 # show the images
