@@ -4,9 +4,13 @@
 #
 #   Author      : miemie2013
 #   Created date: 2020-05-20 15:35:27
-#   Description : keras_yolov4£¨∏¥÷∆»®÷ÿ
+#   Description : keras_yolov4ÔºåÂ§çÂà∂ÊùÉÈáç
 #
 # ================================================================
+
+'''https://github.com/miemie2013/Keras-YOLOv4/edit/master/1_pytorch2keras.py'''
+
+
 import torch
 import keras
 import keras.layers as layers
@@ -96,8 +100,3 @@ copy2(model_body.layers[i1], 110)
 
 model_body.save('yolov4.h5')
 print('\nDone.')
-
-
-
-
-'''https://github.com/miemie2013/Keras-YOLOv4/edit/master/1_pytorch2keras.py'''
