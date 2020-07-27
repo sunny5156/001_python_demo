@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Time    : 2019/11/26 10:52
 # @Author  : Scheaven
@@ -15,7 +15,6 @@ def __on_mouse(event,x ,y ,flags,param):
             cv2.circle(param[0], point, 2, (0, 255, 0), 2)
             point_flog = False
         else:
-            cv2.destroyAllWindows()
             return
 
     for i in range(len(param[1])-1):
@@ -32,6 +31,7 @@ def select_point(region):
     img = cv2.resize(frame,(1200,1200*w//h))
     cv2.setMouseCallback("region", __on_mouse, [img, region])
     cv2.waitKey(0)
+    cv2.destroyAllWindows()
     global point
     return point
 
