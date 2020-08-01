@@ -9,10 +9,9 @@ from random import randint
 更改数据中的name名字
 '''
 
-WSI_MASK_PATH = '/home/disk1/s_dataset/10_darknet_hat_data/'
+WSI_MASK_PATH = '/home/disk1/s_dataset/fall_dataset/'
 IMAGE_PATH = 'JPEGImages'
 XML_PATH = 'Annotations'
-BACKGROUND_IMAGE_PATH = '/home/disk1/s_dataset/10_darknet_hat_data/background_images'
 SIMULATION = 'VOCNEW'
 
 
@@ -20,8 +19,9 @@ SIMULATION = 'VOCNEW'
 def update_xml(xml_file, xml_save_path):
     tree = ET.parse(xml_file)
     root = tree.getroot()
-    for member in root.findall('object'):
-        member.find('name').text='human_head'
+    for member in root.findall('filename'):
+        print(file[0:-4])
+        member.text=file[0:-4]
             # cv.rectangle(img, (xmin, ymin), (xmax, ymax), (255, 255, 0), thickness=1)
             # cv.putText(img, "head", (xmin, ymin), cv.FONT_HERSHEY_COMPLEX, 0.7, (255, 0, 0),
             #                thickness=2)
@@ -41,7 +41,7 @@ for file in files: #遍历文件夹
         xml_path = s_xml_path+"/"+file
         n_name +=1
 
-        xml_save_path = SIMULATION + '/' + XML_PATH + '/' + file
+        xml_save_path = WSI_MASK_PATH+SIMULATION + '/' + XML_PATH + '/' + file
 
         a_flag = update_xml(xml_path, xml_save_path)
 
