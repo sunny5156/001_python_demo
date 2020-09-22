@@ -6,8 +6,9 @@ from os.path import join
 
 sets=[('2007', 'train'), ('2007', 'val'), ('2007', 'test')]
 
-classes = ["hat","head"]
+classes = ["person"]
 
+data_dir = '/home/disk1/data/COCO/coco/VOC/'
 
 def convert(size, box):
     dw = 1./(size[0])
@@ -23,8 +24,8 @@ def convert(size, box):
     return (x,y,w,h)
 
 def convert_annotation(year, image_id):
-    in_file = open('/home/disk1/s_dataset/10_darknet_hat_data/Annotations/%s.xml'%(image_id))
-    out_file = open('/home/disk1/s_dataset/10_darknet_hat_data/labels/%s.txt'%(image_id), 'w')
+    in_file = open(os.path.join(data_dir,'Annotations/%s.xml'%(image_id)))
+    out_file = open(os.path.join(data_dir,'labels/%s.txt'%(image_id)), 'w')
     tree=ET.parse(in_file)
     root = tree.getroot()
     size = root.find('size')
@@ -45,12 +46,12 @@ def convert_annotation(year, image_id):
 wd = getcwd()
 
 for year, image_set in sets:
-    if not os.path.exists('/home/disk1/s_dataset/10_darknet_hat_data/labels/'):
-        os.makedirs('/home/disk1/s_dataset/10_darknet_hat_data/labels/')
-    image_ids = open('/home/disk1/s_dataset/10_darknet_hat_data/ImageSets/Main/%s.txt'%(image_set)).read().strip().split()
+    if not os.path.exists(os.path.join(data_dir,'labels/')):
+        os.makedirs(os.path.join(data_dir,'labels/'))
+    image_ids = open(os.path.join(data_dir,'ImageSets/Main/%s.txt'%(image_set))).read().strip().split()
     list_file = open('%s_%s.txt'%(year, image_set), 'w')
     for image_id in image_ids:
-        list_file.write('/home/disk1/s_dataset/10_darknet_hat_data/JPEGImages/%s.jpg\n'%(image_id))
+        list_file.write(os.path.join(data_dir,'JPEGImages/%s.jpg\n'%(image_id)))
         convert_annotation(year, image_id)
     list_file.close()
 
