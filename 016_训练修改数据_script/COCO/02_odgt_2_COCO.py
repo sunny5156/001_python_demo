@@ -1,3 +1,7 @@
+import os
+import json
+from PIL import Image
+
 def load_file(fpath):#fpath是具体的文件 ，作用：#str to list
     assert os.path.exists(fpath)  #assert() raise-if-not
     with open(fpath,'r') as fid:
@@ -21,7 +25,7 @@ def crowdhuman2coco(odgt_path,json_path):#一个输入文件路径，一个输�
     for i in range(record_list):
         file_name = records[i]['ID']+'.jpg'  #这里是字符串格式  eg.273278,600e5000db6370fb
         #image_id = int(records[i]['ID'].split(",")[0]) 这样会导致id唯一，要自己设定
-        im = Image.open("./CrowdHuman_train/"+file_name)
+        im = Image.open("./Images/"+file_name)
         #根据文件名，获取图片，这样可以获取到图片的宽高等信息。因为再odgt数据集里，没有宽高的字段信息。
         image = {'file_name': file_name, 'height': im.size[1], 'width': im.size[0],'id':image_id} #im.size[0]，im.size[1]分别是宽高
         json_dict['images'].append(image) #这一步完成一行数据到字典images的转换。
@@ -66,6 +70,6 @@ def crowdhuman2coco(odgt_path,json_path):#一个输入文件路径，一个输�
     json_fp.close()
 
 if __name__=='__main__':
-	odgt_path = './annotation_train.odgt'
-	json_path = './json/train.json'
+	odgt_path = './annotation_val.odgt'
+	json_path = './val.json'
 	crowdhuman2coco(odgt_path,json_path)
