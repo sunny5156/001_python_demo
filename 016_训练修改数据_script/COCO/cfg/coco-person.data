@@ -1,0 +1,7 @@
+classes=1
+train=/home/disk1/Scheaven/start-yolov4/cfg/train_person2017.txt
+valid=/home/disk1/Scheaven/start-yolov4/cfg/val_person2017.txt
+#valid=data/coco_val_5k.list
+names=/home/disk1/Scheaven/start-yolov4/cfg/coco/coco-person.names
+backup=/home/disk2/workspace/Scheaven/08_Detection/02_yolo_darknet/02_darknet_V4/backup/
+eval=coco
