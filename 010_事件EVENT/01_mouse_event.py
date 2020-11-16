@@ -12,19 +12,20 @@ def __on_mouse(event,x ,y ,flags,param):
     if event == cv2.EVENT_LBUTTONDOWN: #鼠标左击事件
         if(point_flog):
             point = (x, y)
+            print(point)
             cv2.circle(param[0], point, 2, (0, 255, 0), 2)
-            point_flog = False
+            # point_flog = False
         else:
             return
 
-    for i in range(len(param[1])-1):
-        cv2.line(param[0], tuple(param[1][i]), tuple(param[1][i+1]), (0, 0, 255), 2)
+    #for i in range(len(param[1])-1):
+    #    cv2.line(param[0], tuple(param[1][i]), tuple(param[1][i+1]), (0, 0, 255), 2)
 
     cv2.imshow('region',param[0])
-    # cv2.waitKey(0)
+    #cv2.waitKey(0)
 
 def select_point(region):
-    cap = cv2.VideoCapture("rtsp://admin:a1234567@192.168.5.36:554/h264/ch1/main/av_stream")
+    cap = cv2.VideoCapture("/home/disk2/workspace/Scheaven/data/01_reid/cT3.avi")
     ret, frame = cap.read()
     cv2.namedWindow('region')
     w,h = frame.shape[:2]
@@ -39,5 +40,5 @@ def select_point(region):
 if __name__ == '__main__':
     region = [(100, 100), (100, 200), (800, 100), (800, 50)]
     select_point(region)
-    print(point)
+
 
