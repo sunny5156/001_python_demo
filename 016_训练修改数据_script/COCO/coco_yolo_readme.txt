@@ -21,3 +21,6 @@ python 03_coco2yolo.py --coco_img_dir $COCO_DIR/train2017/ --coco_ann_file $COCO
 # valid
 python 03_coco2yolo.py --coco_img_dir $COCO_DIR/val2017/ --coco_ann_file $COCO_DIR/annotations/instances_val2017.json --yolo_names_file ./cfg/coco/coco.names --output_dir./data/ --output_name val2017 --output_img_prefix /home/disk1/Scheaven/start-yolov4/data/val2017
 '''
+
+
+from coco.label import ... 如果报错，coco 其实是个文件夹，在本文件同目录
