@@ -3,9 +3,9 @@ import xml.dom.minidom
 import cv2 as cv
  
 #ImgPath = '/home/disk1/data/VOC2012/JPEGImages/'
-ImgPath = '/home/disk1/s_dataset/10_darknet_hat_data/JPEGImages/'
+ImgPath = '/home/scheaven/xytest/dis_data/JPEGImages/'
 #AnnoPath = '/home/disk1/data/VOC2012/Annotations/'
-AnnoPath = '/home/disk1/s_dataset/10_darknet_hat_data/Annotations/'
+AnnoPath = '/home/scheaven/xytest/dis_data/Annotations/'
 
 imagelist = os.listdir(ImgPath)
 for image in imagelist:
@@ -60,6 +60,6 @@ for image in imagelist:
                            thickness=2)
     img = cv.resize(img,(800,500));
     cv.imshow(image_pre, img)
-    # cv.waitKey(2000)
-    # cv.destroyAllWindows()
-    cv.imwrite("./VOCHAT/"+image, img)   #save picture
+    cv.waitKey(300)
+    cv.destroyAllWindows()
+    #cv.imwrite("./VOCHAT/"+image, img)   #save picture
