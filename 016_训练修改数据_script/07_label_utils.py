@@ -6,9 +6,9 @@ from os.path import join
 
 sets=[('2007', 'train'), ('2007', 'val'), ('2007', 'test')]
 
-classes = ["person"]
+classes = ["garbage_can"]
 
-data_dir = '/home/disk1/data/COCO/coco/VOC/'
+data_dir = '/home/scheaven/xytest/dis_data/'
 
 def convert(size, box):
     dw = 1./(size[0])
